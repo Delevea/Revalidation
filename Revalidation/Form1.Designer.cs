@@ -199,8 +199,10 @@
             this.Controls.Add(this.labelStandard);
             this.Controls.Add(this.labelCheck);
             this.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Document Revalidation v0.0.1";
             this.ResumeLayout(false);
             this.PerformLayout();

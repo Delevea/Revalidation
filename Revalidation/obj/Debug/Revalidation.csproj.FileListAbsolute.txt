@@ -10,3 +10,15 @@ E:\UWork\Revalidation\Revalidation\obj\Debug\Revalidation.csproj.CoreCompileInpu
 E:\UWork\Revalidation\Revalidation\obj\Debug\Revalidation.csproj.CopyComplete
 E:\UWork\Revalidation\Revalidation\obj\Debug\Revalidation.exe
 E:\UWork\Revalidation\Revalidation\obj\Debug\Revalidation.pdb
+D:\Work\UWork\Revalidation\Revalidation\bin\Debug\Revalidation.exe.config
+D:\Work\UWork\Revalidation\Revalidation\bin\Debug\Revalidation.exe
+D:\Work\UWork\Revalidation\Revalidation\bin\Debug\Revalidation.pdb
+D:\Work\UWork\Revalidation\Revalidation\bin\Debug\LitJson.dll
+D:\Work\UWork\Revalidation\Revalidation\obj\Debug\Revalidation.csprojAssemblyReference.cache
+D:\Work\UWork\Revalidation\Revalidation\obj\Debug\Revalidation.Form1.resources
+D:\Work\UWork\Revalidation\Revalidation\obj\Debug\Revalidation.Properties.Resources.resources
+D:\Work\UWork\Revalidation\Revalidation\obj\Debug\Revalidation.csproj.GenerateResource.cache
+D:\Work\UWork\Revalidation\Revalidation\obj\Debug\Revalidation.csproj.CoreCompileInputs.cache
+D:\Work\UWork\Revalidation\Revalidation\obj\Debug\Revalidation.csproj.CopyComplete
+D:\Work\UWork\Revalidation\Revalidation\obj\Debug\Revalidation.exe
+D:\Work\UWork\Revalidation\Revalidation\obj\Debug\Revalidation.pdb

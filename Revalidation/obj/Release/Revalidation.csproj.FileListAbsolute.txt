@@ -1,0 +1,12 @@
+D:\Work\UWork\Revalidation\Revalidation\bin\Release\Revalidation.exe.config
+D:\Work\UWork\Revalidation\Revalidation\bin\Release\Revalidation.exe
+D:\Work\UWork\Revalidation\Revalidation\bin\Release\Revalidation.pdb
+D:\Work\UWork\Revalidation\Revalidation\bin\Release\LitJson.dll
+D:\Work\UWork\Revalidation\Revalidation\obj\Release\Revalidation.csprojAssemblyReference.cache
+D:\Work\UWork\Revalidation\Revalidation\obj\Release\Revalidation.Form1.resources
+D:\Work\UWork\Revalidation\Revalidation\obj\Release\Revalidation.Properties.Resources.resources
+D:\Work\UWork\Revalidation\Revalidation\obj\Release\Revalidation.csproj.GenerateResource.cache
+D:\Work\UWork\Revalidation\Revalidation\obj\Release\Revalidation.csproj.CoreCompileInputs.cache
+D:\Work\UWork\Revalidation\Revalidation\obj\Release\Revalidation.csproj.CopyComplete
+D:\Work\UWork\Revalidation\Revalidation\obj\Release\Revalidation.exe
+D:\Work\UWork\Revalidation\Revalidation\obj\Release\Revalidation.pdb
