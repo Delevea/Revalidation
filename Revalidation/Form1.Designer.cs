@@ -38,8 +38,11 @@
             this.textFilesBox = new System.Windows.Forms.TextBox();
             this.ExportBtn = new System.Windows.Forms.Button();
             this.StartBtn = new System.Windows.Forms.Button();
-            this.tips = new System.Windows.Forms.Label();
+            this.tip1 = new System.Windows.Forms.Label();
             this.CreateBtn = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.SuspendLayout();
             // 
             // labelCheck
@@ -104,7 +107,7 @@
             // 
             // textFilesBox
             // 
-            this.textFilesBox.Font = new System.Drawing.Font("黑体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.textFilesBox.Font = new System.Drawing.Font("黑体", 10F);
             this.textFilesBox.Location = new System.Drawing.Point(14, 86);
             this.textFilesBox.Multiline = true;
             this.textFilesBox.Name = "textFilesBox";
@@ -135,15 +138,14 @@
             this.StartBtn.UseVisualStyleBackColor = true;
             this.StartBtn.Click += new System.EventHandler(this.Button_Click);
             // 
-            // tips
+            // tip1
             // 
-            this.tips.AutoSize = true;
-            this.tips.ForeColor = System.Drawing.Color.Red;
-            this.tips.Location = new System.Drawing.Point(463, 54);
-            this.tips.Name = "tips";
-            this.tips.Size = new System.Drawing.Size(77, 12);
-            this.tips.TabIndex = 13;
-            this.tips.Text = "载入成功文件";
+            this.tip1.AutoSize = true;
+            this.tip1.ForeColor = System.Drawing.Color.Red;
+            this.tip1.Location = new System.Drawing.Point(463, 54);
+            this.tip1.Name = "tip1";
+            this.tip1.Size = new System.Drawing.Size(0, 12);
+            this.tip1.TabIndex = 13;
             // 
             // CreateBtn
             // 
@@ -156,13 +158,37 @@
             this.CreateBtn.UseVisualStyleBackColor = true;
             this.CreateBtn.Click += new System.EventHandler(this.Button_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label1.Location = new System.Drawing.Point(443, 269);
+            this.label1.Name = "label1";
+            this.label1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label1.Size = new System.Drawing.Size(83, 12);
+            this.label1.TabIndex = 15;
+            this.label1.Text = "Version 0.0.1";
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(12, 269);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(411, 12);
+            this.progressBar1.TabIndex = 16;
+            // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(541, 290);
+            this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.CreateBtn);
-            this.Controls.Add(this.tips);
+            this.Controls.Add(this.tip1);
             this.Controls.Add(this.StartBtn);
             this.Controls.Add(this.ExportBtn);
             this.Controls.Add(this.textFilesBox);
@@ -192,8 +218,11 @@
         private System.Windows.Forms.TextBox textFilesBox;
         private System.Windows.Forms.Button ExportBtn;
         private System.Windows.Forms.Button StartBtn;
-        private System.Windows.Forms.Label tips;
+        private System.Windows.Forms.Label tip1;
         private System.Windows.Forms.Button CreateBtn;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
 

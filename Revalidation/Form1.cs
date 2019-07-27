@@ -15,12 +15,26 @@ namespace Revalidation
     {
         private List<string> modifyFiles = new List<string>();
         private List<string> newFiles = new List<string>();
+        private Dictionary<string, string> currentDic = new Dictionary<string, string>();
         private Dictionary<string, string> historyDic = new Dictionary<string, string>();
-
+        private bool isSaved = false;
 
         public Form1()
         {
             InitializeComponent();
+            backgroundWorker1.WorkerReportsProgress = true;         // 设置能报告进度更新
+            // backgroundWorker1.WorkerSupportsCancellation = true;    // 设置支持异步取消
+            backgroundWorker1.ProgressChanged += new ProgressChangedEventHandler(backgroundWorker1_ProgressChanged);
+        }
+
+        private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            progressBar1.Value = e.ProgressPercentage;  //获取异步任务的进度百分比
+            textFilesBox.AppendText(progressBar1.Value.ToString());
+            if (progressBar1.Value == 100)
+            {
+                textFilesBox.Text = "索引文件生成成功";
+            }
         }
 
         private void Button_Click(object sender, EventArgs e)
@@ -51,14 +65,14 @@ namespace Revalidation
         {
             try
             {
-                Dictionary<string, string> dic = GetFilesInfo();
-                string str = JsonMapper.ToJson(dic);
-                string dicPath = textCheck.Text + @"\version";
-                if (!Directory.Exists(dicPath))
-                {
-                    Directory.CreateDirectory(dicPath);
-                }
-                File.WriteAllText(dicPath + @"\FilesVersion.json", str, Encoding.UTF8);   
+                GetFilesInfo(true);
+                //string str = JsonMapper.ToJson(currentDic);
+                //string dicPath = textCheck.Text + @"\version";
+                //if (!Directory.Exists(dicPath))
+                //{
+                //    Directory.CreateDirectory(dicPath);
+                //}
+                //File.WriteAllText(dicPath + @"\FilesVersion.json", str, Encoding.UTF8);
             }
             catch (Exception)
             {
@@ -67,25 +81,35 @@ namespace Revalidation
             }
         }
 
-        private Dictionary<string, string> GetFilesInfo()
+        private void GetFilesInfo(bool saved = false)
         {
             try
             {
-                Dictionary<string, string> fileDic = new Dictionary<string, string>();
-                FileStream stream = null;
-                DirectoryInfo info = new DirectoryInfo(textCheck.Text);
-                foreach (var item in info.GetFiles())
-                {
-                    using (stream = File.Open(item.FullName, FileMode.Open))
-                    {
-                        string md5str = FileHelper.ComputeFileMD5(stream);
-                        fileDic.Add(item.FullName, md5str);
-                    }
-                }
-                // TODO: Thread code ...
-                return fileDic;
+                isSaved = saved;
+                backgroundWorker1.RunWorkerAsync();
+                //Dictionary<string, string> fileDic = new Dictionary<string, string>();
+                //currentDic.Clear();
+                //FileStream stream = null;
+                //DirectoryInfo info = new DirectoryInfo(textCheck.Text);
+                //FileInfo[] files = info.GetFiles();
+                //int tempIdx = 0;
+                //for (int i = 0; i < files.Length; i++)
+                //{
+                //    using (stream = File.Open(files[i].FullName, FileMode.Open))
+                //    {
+                //        string md5str = FileHelper.ComputeFileMD5(stream);
+                //        currentDic.Add(files[i].FullName, md5str);
+                //    }
+                //    tempIdx++;
+                //    if (tempIdx >= 50)
+                //    {
+                //        tempIdx = 0;
+                //        double val = Math.Round(Convert.ToDouble(i / (files.Length - 1)), 0);
+                //        backgroundWorker1.ReportProgress(Convert.ToInt32(val));
+                //    }
+                //}               
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
                 // TODO: throw exception ...
                 throw;
@@ -120,14 +144,14 @@ namespace Revalidation
                         StreamReader sr = new StreamReader(dialog.FileName, Encoding.UTF8);
                         historyDic = JsonMapper.ToObject<Dictionary<string, string>>(sr.ReadToEnd());
                         sr.Close();
-                        tips.Visible = true;
-                        tips.ForeColor = Color.LightGreen;
-                        tips.Text = "载入成功";
+                        tip1.Visible = true;
+                        tip1.ForeColor = Color.LightGreen;
+                        tip1.Text = "载入成功";
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
-                        throw;
-                        // TODO: throw exception ...
+                        tip1.ForeColor = Color.Red;
+                        tip1.Text = "载入失败";
                     }
                 }
             }
@@ -146,7 +170,7 @@ namespace Revalidation
             if (string.IsNullOrEmpty(textCheck.Text) || string.IsNullOrEmpty(textStandard.Text))
                 return;
 
-            Dictionary<string, string> currentDic = GetFilesInfo();
+            GetFilesInfo();
             modifyFiles.Clear();
             newFiles.Clear();
 
@@ -165,59 +189,115 @@ namespace Revalidation
                 }
             }
             textFilesBox.Text = string.Empty;
+            string tipStr = "校验完毕";
             if (modifyFiles.Count > 0)
             {
+                tipStr += "," + modifyFiles.Count + "个文件进行了修改";
                 foreach (var file in modifyFiles)
                 {
                     textFilesBox.AppendText("Modify " + GetFileShortName(file) + "\r\n");
                 }
             }
+            else
+            {
+                tipStr += ",未发现更新文件";
+            }
 
             if (newFiles.Count > 0)
             {
+                tipStr += ",新增了" + newFiles.Count + "个文件";
                 foreach (var file in newFiles)
                 {
                     textFilesBox.AppendText("Add " + GetFileShortName(file) + "\r\n");
                 }
             }
+            else
+            {
+                tipStr += ",未发现新增文件";
+            }
+
+            textFilesBox.AppendText(tipStr);
         }
 
         /// <summary> 导出 </summary>
         private void Export()
         {
-            using (FolderBrowserDialog dialog = new FolderBrowserDialog())
+            try
             {
-                dialog.Description = "选择导出路径";
-                if (dialog.ShowDialog() == DialogResult.OK)
+                using (FolderBrowserDialog dialog = new FolderBrowserDialog())
                 {
-                    string newPath = dialog.SelectedPath + @"\newFiles";
-                    string modifyPath = dialog.SelectedPath + @"\modifyFiles";
-                    if (newFiles.Count > 0)  
+                    dialog.Description = "选择导出路径";
+                    if (dialog.ShowDialog() == DialogResult.OK)
                     {
-                        if (!Directory.Exists(newPath))
+                        string newPath = dialog.SelectedPath + @"\newFiles";
+                        string modifyPath = dialog.SelectedPath + @"\modifyFiles";
+                        if (newFiles.Count > 0)  
                         {
-                            Directory.CreateDirectory(newPath);
+                            if (!Directory.Exists(newPath))
+                            {
+                                Directory.CreateDirectory(newPath);
+                            }
+                            foreach (var file in newFiles)
+                            {
+                                File.Copy(file, newPath + "\\" + GetFileShortName(file), true);
+                            }
                         }
-                        foreach (var file in newFiles)
-                        {
-                            File.Copy(file, newPath + "\\" + GetFileShortName(file), true);
-                        }
-                    }
 
-                    if (modifyFiles.Count > 0)
-                    {
-                        if (!Directory.Exists(modifyPath))
+                        if (modifyFiles.Count > 0)
                         {
-                            Directory.CreateDirectory(modifyPath);
-                        }
-                        foreach (var file in modifyFiles)
-                        {
-                            File.Copy(file, modifyPath + "\\" + GetFileShortName(file), true);
+                            if (!Directory.Exists(modifyPath))
+                            {
+                                Directory.CreateDirectory(modifyPath);
+                            }
+                            foreach (var file in modifyFiles)
+                            {
+                                File.Copy(file, modifyPath + "\\" + GetFileShortName(file), true);
+                            }
                         }
                     }
                 }
             }
+            catch (Exception e)
+            {
+                throw;
+            }
 
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker worker = sender as BackgroundWorker;
+            currentDic.Clear();
+            FileStream stream = null;
+            DirectoryInfo info = new DirectoryInfo(textCheck.Text);
+            FileInfo[] files = info.GetFiles();
+            int tempIdx = 0;
+            for (int i = 0; i < files.Length; i++)
+            {
+                using (stream = File.Open(files[i].FullName, FileMode.Open))
+                {
+                    string md5str = FileHelper.ComputeFileMD5(stream);
+                    currentDic.Add(files[i].FullName, md5str);
+                }
+                tempIdx++;
+                //if (tempIdx >= 50)
+                //{
+                    tempIdx = 0;
+                    double val = Math.Round((double)i / (files.Length - 1), 2) * 100;
+                    worker.ReportProgress(Convert.ToInt32(val));
+                //}
+            }
+
+            if (isSaved)
+            {
+                string str = JsonMapper.ToJson(currentDic);
+                string dicPath = textCheck.Text + @"\version";
+                if (!Directory.Exists(dicPath))
+                {
+                    Directory.CreateDirectory(dicPath);
+                }
+                File.WriteAllText(dicPath + @"\FilesVersion.json", str, Encoding.UTF8);
+            }
         }
     }
 }
