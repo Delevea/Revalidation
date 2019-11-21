@@ -167,7 +167,7 @@
             this.label1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label1.Size = new System.Drawing.Size(83, 12);
             this.label1.TabIndex = 15;
-            this.label1.Text = "Version 0.0.1";
+            this.label1.Text = "Version 0.0.2";
             // 
             // progressBar1
             // 
@@ -201,7 +201,7 @@
             this.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
-            this.Text = "Document Revalidation v0.0.1";
+            this.Text = "Document Revalidation v0.0.2";
             this.ResumeLayout(false);
             this.PerformLayout();
 

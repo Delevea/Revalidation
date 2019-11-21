@@ -66,13 +66,6 @@ namespace Revalidation
             try
             {
                 GetFilesInfo(true);
-                //string str = JsonMapper.ToJson(currentDic);
-                //string dicPath = textCheck.Text + @"\version";
-                //if (!Directory.Exists(dicPath))
-                //{
-                //    Directory.CreateDirectory(dicPath);
-                //}
-                //File.WriteAllText(dicPath + @"\FilesVersion.json", str, Encoding.UTF8);
             }
             catch (Exception)
             {
@@ -87,27 +80,6 @@ namespace Revalidation
             {
                 isSaved = saved;
                 backgroundWorker1.RunWorkerAsync();
-                //Dictionary<string, string> fileDic = new Dictionary<string, string>();
-                //currentDic.Clear();
-                //FileStream stream = null;
-                //DirectoryInfo info = new DirectoryInfo(textCheck.Text);
-                //FileInfo[] files = info.GetFiles();
-                //int tempIdx = 0;
-                //for (int i = 0; i < files.Length; i++)
-                //{
-                //    using (stream = File.Open(files[i].FullName, FileMode.Open))
-                //    {
-                //        string md5str = FileHelper.ComputeFileMD5(stream);
-                //        currentDic.Add(files[i].FullName, md5str);
-                //    }
-                //    tempIdx++;
-                //    if (tempIdx >= 50)
-                //    {
-                //        tempIdx = 0;
-                //        double val = Math.Round(Convert.ToDouble(i / (files.Length - 1)), 0);
-                //        backgroundWorker1.ReportProgress(Convert.ToInt32(val));
-                //    }
-                //}               
             }
             catch (Exception e)
             {
@@ -277,7 +249,7 @@ namespace Revalidation
                 using (stream = File.Open(files[i].FullName, FileMode.Open))
                 {
                     string md5str = FileHelper.ComputeFileMD5(stream);
-                    currentDic.Add(files[i].FullName, md5str);
+                    currentDic.Add(files[i].Name, md5str);
                 }
                 tempIdx++;
                 //if (tempIdx >= 50)
