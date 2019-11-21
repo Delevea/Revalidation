@@ -65,24 +65,7 @@ namespace Revalidation
         {
             try
             {
-<<<<<<< HEAD
-                GetFilesInfo(true);
-            }
-            catch (Exception)
-            {
-                // TODO: throw exception ...
-                throw;
-            }
-        }
-
-        private void GetFilesInfo(bool saved = false)
-        {
-            try
-            {
-                isSaved = saved;
-=======
                 CreateBtn.Enabled = false;
->>>>>>> 82b5c9e7cb4e036b6dedb42b0c8307b9c703237c
                 backgroundWorker1.RunWorkerAsync();
             }
             catch (Exception)

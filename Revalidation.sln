@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.645
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Revalidation", "Revalidation\Revalidation.csproj", "{0C399BB3-99E6-4B63-8EA8-9939F90CC58C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0C399BB3-99E6-4B63-8EA8-9939F90CC58C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C399BB3-99E6-4B63-8EA8-9939F90CC58C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C399BB3-99E6-4B63-8EA8-9939F90CC58C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C399BB3-99E6-4B63-8EA8-9939F90CC58C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BF2DB19F-B7B7-41CD-A79E-B7B204AF8FE7}
+	EndGlobalSection
+EndGlobal
