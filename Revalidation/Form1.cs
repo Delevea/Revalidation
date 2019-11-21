@@ -23,18 +23,18 @@ namespace Revalidation
         {
             InitializeComponent();
             backgroundWorker1.WorkerReportsProgress = true;         // 设置能报告进度更新
-            // backgroundWorker1.WorkerSupportsCancellation = true;    // 设置支持异步取消
             backgroundWorker1.ProgressChanged += new ProgressChangedEventHandler(backgroundWorker1_ProgressChanged);
         }
 
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             progressBar1.Value = e.ProgressPercentage;  //获取异步任务的进度百分比
-            textFilesBox.AppendText(progressBar1.Value.ToString());
-            if (progressBar1.Value == 100)
+            textFilesBox.Text = "索引文件生成中 - " + e.ProgressPercentage + "%";
+            if (e.ProgressPercentage == 100)
             {
-                textFilesBox.Text = "索引文件生成成功";
+                CreateBtn.Enabled = true;
             }
+            
         }
 
         private void Button_Click(object sender, EventArgs e)
@@ -65,6 +65,7 @@ namespace Revalidation
         {
             try
             {
+<<<<<<< HEAD
                 GetFilesInfo(true);
             }
             catch (Exception)
@@ -79,9 +80,12 @@ namespace Revalidation
             try
             {
                 isSaved = saved;
+=======
+                CreateBtn.Enabled = false;
+>>>>>>> 82b5c9e7cb4e036b6dedb42b0c8307b9c703237c
                 backgroundWorker1.RunWorkerAsync();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 // TODO: throw exception ...
                 throw;
@@ -116,7 +120,6 @@ namespace Revalidation
                         StreamReader sr = new StreamReader(dialog.FileName, Encoding.UTF8);
                         historyDic = JsonMapper.ToObject<Dictionary<string, string>>(sr.ReadToEnd());
                         sr.Close();
-                        tip1.Visible = true;
                         tip1.ForeColor = Color.LightGreen;
                         tip1.Text = "载入成功";
                     }
@@ -142,7 +145,17 @@ namespace Revalidation
             if (string.IsNullOrEmpty(textCheck.Text) || string.IsNullOrEmpty(textStandard.Text))
                 return;
 
-            GetFilesInfo();
+            if (currentDic.Count <= 0)
+            {
+                if (!Directory.Exists(textCheck.Text + @"\version") || !File.Exists(textCheck.Text + @"\version\FilesVersion.json"))
+                {
+                    textFilesBox.Text = "请先创建版本索引文件";
+                    return;
+                }
+                StreamReader sr = new StreamReader(textCheck.Text + @"\version\FilesVersion.json", Encoding.UTF8);
+                currentDic = JsonMapper.ToObject<Dictionary<string, string>>(sr.ReadToEnd());
+                sr.Close();
+            }
             modifyFiles.Clear();
             newFiles.Clear();
 
@@ -226,6 +239,7 @@ namespace Revalidation
                                 File.Copy(file, modifyPath + "\\" + GetFileShortName(file), true);
                             }
                         }
+                        textFilesBox.AppendText("导出成功");
                     }
                 }
             }
@@ -252,24 +266,22 @@ namespace Revalidation
                     currentDic.Add(files[i].Name, md5str);
                 }
                 tempIdx++;
-                //if (tempIdx >= 50)
-                //{
+                if (tempIdx >= 50)
+                {
                     tempIdx = 0;
                     double val = Math.Round((double)i / (files.Length - 1), 2) * 100;
                     worker.ReportProgress(Convert.ToInt32(val));
-                //}
-            }
-
-            if (isSaved)
-            {
-                string str = JsonMapper.ToJson(currentDic);
-                string dicPath = textCheck.Text + @"\version";
-                if (!Directory.Exists(dicPath))
-                {
-                    Directory.CreateDirectory(dicPath);
                 }
-                File.WriteAllText(dicPath + @"\FilesVersion.json", str, Encoding.UTF8);
             }
+            worker.ReportProgress(100);
+           
+            string str = JsonMapper.ToJson(currentDic);
+            string dicPath = textCheck.Text + @"\version";
+            if (!Directory.Exists(dicPath))
+            {
+                Directory.CreateDirectory(dicPath);
+            }
+            File.WriteAllText(dicPath + @"\FilesVersion.json", str, Encoding.UTF8);
         }
     }
 }
